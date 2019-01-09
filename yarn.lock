@@ -18,7 +18,7 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@nestjs/common@^5.4.0":
+"@nestjs/common@^5.0.0", "@nestjs/common@^5.4.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-5.5.0.tgz#6427d440f96e23c38945620fd74cb6ec61da8224"
   integrity sha512-Ifh1D4ypsJYs/3YBIocU+X5yuAZSVKuCsz8kaKB4ZUO5WwJjh4/x6hlr4A+9XUMe8fPLtYXVohJoRUU5HbwyIA==
@@ -44,6 +44,15 @@
     optional "0.1.4"
     path-to-regexp "2.2.1"
     uuid "3.3.2"
+
+"@nestjs/cqrs@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/cqrs/-/cqrs-5.1.1.tgz#e0e6eba31765e1e91c0496d786dfa594f5611368"
+  integrity sha512-fxNJdeJ2cr6ln+4V1XrWp/M0sb7v+kWabI3nAKzdHv/pJjTK9Eiw722slcI+aeoximXOKTITwtwbOAOB3xzOYw==
+  dependencies:
+    "@nestjs/common" "^5.0.0"
+    reflect-metadata "^0.1.12"
+    rxjs "^6.1.0"
 
 "@nestjs/testing@^5.1.0":
   version "5.5.0"
@@ -4321,7 +4330,7 @@ rsvp@^3.3.3:
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-3.6.2.tgz#2e96491599a96cde1b515d5674a8f7a91452926a"
   integrity sha512-OfWGQTb9vnwRjwtA2QwpG2ICclHC3pgXZO5xt8H2EfgDquO0qVdSb5T88L4qJVAEugbS56pAuV4XZM58UX8ulw==
 
-rxjs@^6.2.2:
+rxjs@^6.1.0, rxjs@^6.2.2:
   version "6.3.3"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.3.3.tgz#3c6a7fa420e844a81390fb1158a9ec614f4bad55"
   integrity sha512-JTWmoY9tWCs7zvIk/CvRjhjGaOd+OVBM987mxFo+OW66cGpdKjZcpmc74ES1sB//7Kl/PAe8+wEakuhG4pcgOw==
