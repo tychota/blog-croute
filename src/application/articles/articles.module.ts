@@ -15,7 +15,6 @@ import { EventSaga } from './article.saga';
 import { ArticleRepository as CustomArticleRepository } from './articles.repository';
 import { CreateArticleHandler } from './commands/handlers/create-article.handler';
 import { EventEntity } from 'src/infrastructure/events/events.entity';
-import { IDAddedToCatalogCommand } from './commands/implementations/id-added-to-catalog';
 import { AddIdToCatalogHandler } from './commands/handlers/add-id-to-catalog.handlers';
 import { CatalogsEntity } from './catalogs.entity';
 
@@ -48,7 +47,7 @@ export class ArticlesModule implements OnModuleInit {
     this.eventBus$.setModuleRef(this.moduleRef);
     this.eventBus$.combineSagas([
       this.eventSaga.eventPublished,
-      this.eventSaga.eventPublished,
+      this.eventSaga.entityCreated,
     ]);
   }
 }

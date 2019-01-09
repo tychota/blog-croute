@@ -1,5 +1,5 @@
 import { ICommandHandler, CommandHandler, EventPublisher } from '@nestjs/cqrs';
-import { CreateArticleCommand } from '../implementations/article-created.command';
+import { CreateArticleCommand } from '../implementations/create-article.command';
 import { ArticlesEntity, createArticle } from '../../articles.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';

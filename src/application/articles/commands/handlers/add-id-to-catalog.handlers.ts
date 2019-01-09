@@ -1,17 +1,17 @@
-import { IDAddedToCatalogCommand } from '../implementations/id-added-to-catalog';
+import { AddIdToCatalogCommand } from '../implementations/add-id-to-catalog.command';
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CatalogsEntity } from '../../catalogs.entity';
 import { Repository } from 'typeorm';
 
-@CommandHandler(IDAddedToCatalogCommand)
+@CommandHandler(AddIdToCatalogCommand)
 export class AddIdToCatalogHandler
-  implements ICommandHandler<IDAddedToCatalogCommand> {
+  implements ICommandHandler<AddIdToCatalogCommand> {
   constructor(
     @InjectRepository(CatalogsEntity)
     private readonly catalogRepository: Repository<CatalogsEntity>,
   ) {}
-  async execute(command: IDAddedToCatalogCommand) {
+  async execute(command: AddIdToCatalogCommand) {
     const catalog: CatalogsEntity = (await this.catalogRepository.findOne(
       command.entityName,
     )) || {

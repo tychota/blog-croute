@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EventEntity } from 'src/infrastructure/events/events.entity';
 import { ArticleEvents } from './events/namespace';
+import { CatalogsEntity } from './catalogs.entity';
+import { async } from 'rxjs/internal/scheduler/async';
 
 const recreateEvent = (event: EventEntity) => {
   const payload = event.payload;
@@ -20,11 +22,13 @@ const recreateEvent = (event: EventEntity) => {
 export class ArticleRepository {
   constructor(
     @InjectRepository(EventEntity)
-    private readonly EventRepository: Repository<EventEntity>,
+    private readonly eventRepository: Repository<EventEntity>,
+    @InjectRepository(CatalogsEntity)
+    private readonly catalogRepository: Repository<CatalogsEntity>,
   ) {}
 
-  async findById(aggregateId: string): Promise<ArticlesEntity> {
-    const articleHistory: EventEntity[] = await this.EventRepository.find({
+  findById = async (aggregateId: string): Promise<ArticlesEntity> => {
+    const articleHistory: EventEntity[] = await this.eventRepository.find({
       where: { aggregateId },
     });
     const articleHistoryEvents = articleHistory.map(recreateEvent);
@@ -32,5 +36,14 @@ export class ArticleRepository {
     const article = new ArticlesEntity();
     article.loadFromHistory(articleHistoryEvents);
     return article;
-  }
+    // tslint:disable-next-line:semicolon
+  };
+
+  find = async (): Promise<ArticlesEntity[]> => {
+    const articleAggregatesCatalog = await this.catalogRepository.findOne({
+      where: { entityName: 'article' },
+    });
+    return Promise.all(articleAggregatesCatalog.idList.map(this.findById));
+    // tslint:disable-next-line:semicolon
+  };
 }

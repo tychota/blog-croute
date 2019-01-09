@@ -8,7 +8,7 @@ import { ArticleCreated } from './events/article-created.event';
 import { EventEntity } from 'src/infrastructure/events/events.entity';
 
 import { getRepository } from 'typeorm';
-import { IDAddedToCatalogCommand } from './commands/implementations/id-added-to-catalog';
+import { AddIdToCatalogCommand } from './commands/implementations/add-id-to-catalog.command';
 
 @Injectable()
 export class EventSaga {
@@ -30,7 +30,7 @@ export class EventSaga {
   entityCreated = (events$: EventObservable<any>): Observable<ICommand> => {
     return events$.ofType(ArticleCreated).pipe(
       map(event => {
-        return new IDAddedToCatalogCommand('article', event.aggregateId);
+        return new AddIdToCatalogCommand('article', event.aggregateId);
       }),
     );
     // tslint:disable-next-line:semicolon
