@@ -10,7 +10,6 @@ import { CommandBus } from '@nestjs/cqrs';
 
 import { ArticlesController } from './articles.controller';
 import { ArticlesService } from './articles.service';
-import { ArticlesEntity } from './articles.entity';
 import { EventSaga } from './article.saga';
 import { ArticleRepository as CustomArticleRepository } from './articles.repository';
 import { CreateArticleHandler } from './commands/handlers/create-article.handler';
@@ -20,7 +19,7 @@ import { CatalogsEntity } from './catalogs.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ArticlesEntity, EventEntity, CatalogsEntity]),
+    TypeOrmModule.forFeature([EventEntity, CatalogsEntity]),
     CQRSModule,
   ],
   controllers: [ArticlesController],

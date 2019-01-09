@@ -21,7 +21,6 @@ export const createArticle = ({
   return newArticle;
 };
 
-@Entity()
 export class ArticlesEntity extends AggregateRoot {
   @PrimaryGeneratedColumn('uuid')
   id: string;

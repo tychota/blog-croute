@@ -7,15 +7,12 @@ import { ArticlesInterface } from './interfaces/articles.interface';
 
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateArticleCommand } from './commands/implementations/create-article.command';
-import { ArticleRepository as CustomArticleRepository } from './articles.repository';
-import { AddIdToCatalogCommand } from './commands/implementations/add-id-to-catalog.command';
+import { ArticleRepository } from './articles.repository';
 
 @Injectable()
 export class ArticlesService {
   constructor(
-    @InjectRepository(ArticlesEntity)
-    private readonly articleRepository: Repository<ArticlesEntity>,
-    private readonly customArticleRepository: CustomArticleRepository,
+    private readonly articleRepository: ArticleRepository,
     private readonly commandBus: CommandBus,
   ) {}
 
@@ -26,12 +23,12 @@ export class ArticlesService {
   }
 
   async getAllArticles(): Promise<ArticlesEntity[]> {
-    const articles = this.customArticleRepository.find();
+    const articles = this.articleRepository.find();
     return articles;
   }
 
   async getArticle(id: string): Promise<ArticlesInterface> {
-    const article = this.customArticleRepository.findById(id);
+    const article = this.articleRepository.findById(id);
     return article;
   }
 }
