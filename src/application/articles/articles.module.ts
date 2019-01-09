@@ -5,7 +5,7 @@ import { ModuleRef } from '@nestjs/core';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { CQRSModule } from '@nestjs/cqrs';
+import { CQRSModule, EventBus } from '@nestjs/cqrs';
 import { CommandBus } from '@nestjs/cqrs';
 
 import { ArticlesController } from './articles.controller';
@@ -13,20 +13,26 @@ import { ArticlesService } from './articles.service';
 import { ArticlesEntity } from './articles.entity';
 
 import { CreateArticleHandler } from './commands/handlers/create-article.handler';
+import { EventSaga } from './article.saga';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ArticlesEntity]), CQRSModule],
   controllers: [ArticlesController],
-  providers: [ArticlesService, CreateArticleHandler],
+  providers: [ArticlesService, CreateArticleHandler, EventSaga],
 })
 export class ArticlesModule implements OnModuleInit {
   constructor(
     private readonly commandBus$: CommandBus,
+    private readonly eventBus$: EventBus,
     private readonly moduleRef: ModuleRef,
+    private readonly eventSaga: EventSaga,
   ) {}
 
   onModuleInit() {
     this.commandBus$.setModuleRef(this.moduleRef);
     this.commandBus$.register([CreateArticleHandler]);
+
+    this.eventBus$.setModuleRef(this.moduleRef);
+    this.eventBus$.combineSagas([this.eventSaga.eventPublished]);
   }
 }
