@@ -17,11 +17,8 @@ export class ArticlesService {
   ) {}
 
   async store(articleDto: ArticlesInterface): Promise<ArticlesEntity> {
-    const article = this.articleRepository.create(articleDto);
-    await this.articleRepository.save(article);
     const articleCommand = new CreateArticleCommand(articleDto);
-    this.commandBus.execute(articleCommand);
-    return article;
+    return this.commandBus.execute(articleCommand);
   }
 
   async getAllArticles(): Promise<ArticlesEntity[]> {
