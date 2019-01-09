@@ -7,12 +7,14 @@ import { ArticlesInterface } from './interfaces/articles.interface';
 
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateArticleCommand } from './commands/implementations/article-created.command';
+import { ArticleRepository as CustomArticleRepository } from './article.repository';
 
 @Injectable()
 export class ArticlesService {
   constructor(
     @InjectRepository(ArticlesEntity)
     private readonly articleRepository: Repository<ArticlesEntity>,
+    private readonly customArticleRepository: CustomArticleRepository,
     private readonly commandBus: CommandBus,
   ) {}
 
@@ -27,7 +29,7 @@ export class ArticlesService {
   }
 
   async getArticle(id: string): Promise<ArticlesInterface> {
-    const article = this.articleRepository.findOne(id);
+    const article = this.customArticleRepository.findById(id);
     return article;
   }
 }

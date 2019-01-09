@@ -11,14 +11,24 @@ import { CommandBus } from '@nestjs/cqrs';
 import { ArticlesController } from './articles.controller';
 import { ArticlesService } from './articles.service';
 import { ArticlesEntity } from './articles.entity';
-
-import { CreateArticleHandler } from './commands/handlers/create-article.handler';
 import { EventSaga } from './article.saga';
+import { ArticleRepository as CustomArticleRepository } from './article.repository';
+import { CreateArticleHandler } from './commands/handlers/create-article.handler';
+import { EventEntity } from 'src/infrastructure/events/events.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ArticlesEntity]), CQRSModule],
+  imports: [
+    TypeOrmModule.forFeature([ArticlesEntity]),
+    TypeOrmModule.forFeature([EventEntity]),
+    CQRSModule,
+  ],
   controllers: [ArticlesController],
-  providers: [ArticlesService, CreateArticleHandler, EventSaga],
+  providers: [
+    ArticlesService,
+    CreateArticleHandler,
+    EventSaga,
+    CustomArticleRepository,
+  ],
 })
 export class ArticlesModule implements OnModuleInit {
   constructor(

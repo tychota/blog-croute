@@ -4,7 +4,7 @@ import { EventObservable, ICommand, AggregateRoot } from '@nestjs/cqrs';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ArticleCreated } from './events/article-created.events';
+import { ArticleCreated } from './events/article-created.event';
 import { EventEntity } from 'src/infrastructure/events/events.entity';
 
 import { getRepository } from 'typeorm';
@@ -23,5 +23,6 @@ export class EventSaga {
         return null;
       }),
     );
+    // tslint:disable-next-line:semicolon
   };
 }
