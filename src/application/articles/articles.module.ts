@@ -12,20 +12,23 @@ import { ArticlesController } from './articles.controller';
 import { ArticlesService } from './articles.service';
 import { ArticlesEntity } from './articles.entity';
 import { EventSaga } from './article.saga';
-import { ArticleRepository as CustomArticleRepository } from './article.repository';
+import { ArticleRepository as CustomArticleRepository } from './articles.repository';
 import { CreateArticleHandler } from './commands/handlers/create-article.handler';
 import { EventEntity } from 'src/infrastructure/events/events.entity';
+import { IDAddedToCatalogCommand } from './commands/implementations/id-added-to-catalog';
+import { AddIdToCatalogHandler } from './commands/handlers/add-id-to-catalog.handlers';
+import { CatalogsEntity } from './catalogs.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ArticlesEntity]),
-    TypeOrmModule.forFeature([EventEntity]),
+    TypeOrmModule.forFeature([ArticlesEntity, EventEntity, CatalogsEntity]),
     CQRSModule,
   ],
   controllers: [ArticlesController],
   providers: [
     ArticlesService,
     CreateArticleHandler,
+    AddIdToCatalogHandler,
     EventSaga,
     CustomArticleRepository,
   ],
@@ -40,9 +43,12 @@ export class ArticlesModule implements OnModuleInit {
 
   onModuleInit() {
     this.commandBus$.setModuleRef(this.moduleRef);
-    this.commandBus$.register([CreateArticleHandler]);
+    this.commandBus$.register([CreateArticleHandler, AddIdToCatalogHandler]);
 
     this.eventBus$.setModuleRef(this.moduleRef);
-    this.eventBus$.combineSagas([this.eventSaga.eventPublished]);
+    this.eventBus$.combineSagas([
+      this.eventSaga.eventPublished,
+      this.eventSaga.eventPublished,
+    ]);
   }
 }

@@ -7,7 +7,7 @@ import { ArticlesInterface } from './interfaces/articles.interface';
 
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateArticleCommand } from './commands/implementations/article-created.command';
-import { ArticleRepository as CustomArticleRepository } from './article.repository';
+import { ArticleRepository as CustomArticleRepository } from './articles.repository';
 
 @Injectable()
 export class ArticlesService {
